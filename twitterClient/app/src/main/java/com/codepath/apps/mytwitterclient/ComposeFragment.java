@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 /**
@@ -25,6 +26,7 @@ public class ComposeFragment extends DialogFragment {
 
     EditText etBody;
     TextView tvCharLeft;
+    Button btnTweet;
 
     private OnFragmentInteractionListener mListener;
 
@@ -59,6 +61,9 @@ public class ComposeFragment extends DialogFragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_compose, container, false);
+        btnTweet = (Button) view.findViewById(R.id.btnTweet);
+        btnTweet.setEnabled(false); // disable to start with
+        btnTweet.getBackground().setAlpha(50);
         tvCharLeft = (TextView) view.findViewById(R.id.tvCharLeft);
         etBody = (EditText) view.findViewById(R.id.etBody);
         etBody.addTextChangedListener(new TextWatcher() {
@@ -74,7 +79,16 @@ public class ComposeFragment extends DialogFragment {
 
             @Override
             public void afterTextChanged(Editable s) {
-                tvCharLeft.setText(Integer.toString(140 - s.toString().length()));
+                int remainingMsgLength = 140 - s.toString().length();
+                tvCharLeft.setText(Integer.toString(remainingMsgLength));
+
+                if ((remainingMsgLength == 140) || (remainingMsgLength < 0)) {
+                    btnTweet.setEnabled(false);
+                    btnTweet.getBackground().setAlpha(50);
+                } else {
+                    btnTweet.setEnabled(true);
+                    btnTweet.getBackground().setAlpha(255);
+                }
             }
         });
         Button tweetBtn = (Button) view.findViewById(R.id.btnTweet);
@@ -85,7 +99,7 @@ public class ComposeFragment extends DialogFragment {
             }
         });
 
-        Button cancelBtn = (Button) view.findViewById(R.id.btnCancel);
+        ImageButton cancelBtn = (ImageButton) view.findViewById(R.id.btnCancel);
         cancelBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

@@ -9,23 +9,30 @@
     tools:context="com.codepath.apps.mytwitterclient.ComposeFragment">
 
 
-    <Button
+    <ImageButton
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/cancel_button_title"
+        android:layout_height="35dp"
         android:id="@+id/btnCancel"
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        android:layout_alignParentStart="true"
+        android:src="@drawable/ic_cancel"
+        android:alpha="100"
+        android:background="@android:color/transparent" />
+
 
     <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="100dp"
+        android:layout_height="35dp"
         android:text="@string/tweet_button_title"
         android:id="@+id/btnTweet"
         android:layout_alignParentTop="true"
         android:layout_alignParentRight="true"
-        android:onClick="onTweetClick" />
+        android:onClick="onTweetClick"
+        android:background="#ff21acff"
+        android:textStyle="bold"
+        android:textColor="#ffffffff"
+        android:layout_alignParentEnd="true" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -34,7 +41,9 @@
         android:id="@+id/tvCharLeft"
         android:layout_toLeftOf="@+id/btnTweet"
         android:layout_toStartOf="@+id/btnTweet"
-        android:layout_marginTop="20dp"/>
+        android:layout_marginTop="12dp"
+        android:textColor="#ff9f9f9f"
+        android:layout_marginRight="10dp"/>
 
     <EditText
         android:layout_width="wrap_content"
@@ -47,7 +56,9 @@
         android:layout_alignRight="@+id/btnTweet"
         android:layout_alignEnd="@+id/btnTweet"
         android:hint="@string/body_hint"
-        android:gravity="left|top" />
+        android:gravity="left|top"
+        android:textColorHint="#ffdcdcdc" />
+
 
 
 </RelativeLayout>
