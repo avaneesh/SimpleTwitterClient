@@ -101,7 +101,7 @@ public class User extends Model {
             user.followingCount = jsonObject.getInt("friends_count");
             user.tagLine = jsonObject.getString("description");
             user.screenName = jsonObject.getString("screen_name");
-            user.profile_header_url = jsonObject.getString("profile_banner_url");
+            user.profile_header_url = jsonObject.getString("profile_banner_url")+"/web_retina";
 
 
             // todo: ideally we should save only when we are in hometimeline
