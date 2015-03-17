@@ -16,5 +16,5 @@ Previous features:
 4. Shows embedded image media in tweet timeline
 5. Endless scroll using smart pagination through twitter feed
 
-Demo:
+Previous Demo:
 ![Video Walkthrough of previous features](twitterDemo.gif)
