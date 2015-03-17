@@ -3,7 +3,6 @@ package com.codepath.apps.mytwitterclient;
 import android.content.Context;
 import android.util.Log;
 
-import com.codepath.apps.mytwitterclient.models.Tweet;
 import com.codepath.oauth.OAuthBaseClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
@@ -46,16 +45,14 @@ public class TwitterClient extends OAuthBaseClient {
 	 */
 
     // Home timeline
-    public void getHomeTimeline(int page, AsyncHttpResponseHandler handler) {
+    public void getHomeTimeline(AsyncHttpResponseHandler handler, long prev_max_id) {
         String apiUrl = getApiUrl("statuses/home_timeline.json");
         RequestParams params = new RequestParams();
         // todo: try adding it in request URL directly.
         params.put("count", TWEETS_PER_PAGE);
-        int since_id = ((page - 1)*TWEETS_PER_PAGE)+1;
-        //params.put("since_id", ((page - 1)*TWEETS_PER_PAGE)+1);
-        long prev_max_id = Tweet.max_id -1;
-        params.put("max_id", prev_max_id);
-        Log.e("Twitter Client", "Sending out network request(max id 1 - " + prev_max_id + "): " + apiUrl);
+        long till_max_id = prev_max_id - 1;
+        params.put("max_id", till_max_id);
+        Log.e("Twitter Client", "Sending out network request(max id 1 - " + till_max_id + "): " + apiUrl);
         getClient().get(apiUrl, params, handler);
     }
 
@@ -81,4 +78,48 @@ public class TwitterClient extends OAuthBaseClient {
         Log.e("Twitter Client", "Sending out network request: " + apiUrl);
         getClient().post(apiUrl, params, handler);
     }
+
+    // Mentions timeline
+    public void getMentionsTimeline(AsyncHttpResponseHandler handler, long prev_max_id) {
+        String apiUrl = getApiUrl("statuses/mentions_timeline.json");
+        RequestParams params = new RequestParams();
+        params.put("count", TWEETS_PER_PAGE);
+
+        long till_max_id = prev_max_id - 1;
+        params.put("max_id", till_max_id);
+        Log.e("Twitter Client", "Sending out network request(max id 1 - " + till_max_id + "): " + apiUrl);
+        getClient().get(apiUrl, params, handler);
+    }
+
+
+    // User timeline of user - screen_name
+    public void getUserTimeline(AsyncHttpResponseHandler handler, long prev_max_id, String screen_name) {
+        String apiUrl = getApiUrl("statuses/user_timeline.json");
+        RequestParams params = new RequestParams();
+        params.put("count", TWEETS_PER_PAGE);
+
+        long till_max_id = prev_max_id - 1;
+        params.put("max_id", till_max_id);
+        params.put("screen_name", screen_name);
+        Log.e("Twitter Client", "Sending out network request(max id 1 - " + till_max_id + "): " + apiUrl);
+        getClient().get(apiUrl, params, handler);
+    }
+
+    // Mentions timeline
+    public void getUserInfo(AsyncHttpResponseHandler handler) {
+        String apiUrl = getApiUrl("account/verify_credentials.json");
+
+        Log.e("Twitter Client", "Sending out network request" + apiUrl);
+        getClient().get(apiUrl, null, handler);
+    }
+
+    // User timeline of user - screen_name
+    public void getUserDetails(String screen_name, AsyncHttpResponseHandler handler) {
+        String apiUrl = getApiUrl("users/show.json");
+        RequestParams params = new RequestParams();
+        params.put("screen_name", screen_name);
+        Log.e("Twitter Client", "Sending out network request " + apiUrl);
+        getClient().get(apiUrl, params, handler);
+    }
+
 }

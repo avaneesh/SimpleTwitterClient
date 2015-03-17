@@ -1,4 +1,4 @@
-package com.codepath.apps.mytwitterclient;
+package com.codepath.apps.mytwitterclient.fragments;
 
 import android.app.Activity;
 import android.app.Fragment;
@@ -13,6 +13,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
+
+import com.codepath.apps.mytwitterclient.R;
 
 /**
  * A simple {@link Fragment} subclass.

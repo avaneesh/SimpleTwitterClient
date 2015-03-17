@@ -1,6 +1,8 @@
 package com.codepath.apps.mytwitterclient;
 
 import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.text.format.DateUtils;
 import android.widget.Toast;
 
@@ -35,13 +37,17 @@ public class TwitterUtils {
         }
 
         String date_info[] = relativeDate.split("\\s+");
+        outRelativeDate = relativeDate;
+
+        //override 'outRelativeDate' if it can be shortened further
         if (date_info[0].equals("Yesterday")){
             outRelativeDate = "1d";
         } else if (date_info.length > 1){
-            outRelativeDate = date_info[0] + date_info[1].charAt(0);
-        }else {
-            outRelativeDate = relativeDate;
+            if (date_info[2].equals("ago")) {
+                outRelativeDate = date_info[0] + date_info[1].charAt(0);
+            }
         }
+
 
         return outRelativeDate;
     }
@@ -77,6 +83,11 @@ public class TwitterUtils {
     }
 
 
+    public static boolean isNetworkAvailable(Context c) {
+        ConnectivityManager cm = (ConnectivityManager) c.getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetworkInfo = cm.getActiveNetworkInfo();
+        return activeNetworkInfo != null && activeNetworkInfo.isConnectedOrConnecting();
+    }
 
 }
 

@@ -5,4 +5,6 @@
     <item android:id="@+id/action_new_tweet" android:title="@string/action_new_tweet"
         android:orderInCategory="100" app:showAsAction="ifRoom" android:icon="@drawable/ic_compose"
         />
+    <item android:id="@+id/action_profile" android:title="Profile"
+        android:orderInCategory="100" app:showAsAction="ifRoom" android:icon="@drawable/ic_profile"></item>
 </menu>

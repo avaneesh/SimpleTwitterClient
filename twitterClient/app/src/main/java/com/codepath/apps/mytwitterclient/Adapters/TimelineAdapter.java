@@ -1,9 +1,8 @@
-package com.codepath.apps.mytwitterclient;
+package com.codepath.apps.mytwitterclient.Adapters;
 
 import android.content.Context;
 import android.graphics.Color;
 import android.text.Html;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +10,8 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.codepath.apps.mytwitterclient.R;
+import com.codepath.apps.mytwitterclient.TwitterUtils;
 import com.codepath.apps.mytwitterclient.models.Tweet;
 import com.makeramen.RoundedTransformationBuilder;
 import com.squareup.picasso.Picasso;
@@ -48,19 +49,25 @@ public class TimelineAdapter extends ArrayAdapter<Tweet> {
 
         // Load Profile image using Picasso
         holder.ivProfile.setImageResource(0);
-        Picasso.with(getContext())
-                .load(tweet.getUser().getProfile_image_url())
-                .transform(transformation)
-                .into(holder.ivProfile);
+        if (tweet.getUser() != null) {
+            Picasso.with(getContext())
+                    .load(tweet.getUser().getProfile_image_url())
+                    .transform(transformation)
+                    .into(holder.ivProfile);
 
-        holder.tvUserName.setText(tweet.getUser().getUsername());
+            holder.tvUserName.setText(tweet.getUser().getUsername());
+            holder.ivProfile.setTag(tweet.getUser().getScreenName());
+        }
+        else {
+            holder.tvUserName.setText("n/a");
+        }
         holder.tvBody.setText(Html.fromHtml(tweet.getBody()));
         holder.tvRDate.setText(TwitterUtils.getRelativeTimeAgo(tweet.getCreated_at()));
 
         // check for media
         if (tweet.getMedia_type().equals("photo")){
-            Log.e("Media", "Loading media: " + tweet.getMedia_url());
-            Log.e("Media", "Loading Text is: " + tweet.getBody());
+//            Log.e("Media", "Loading media: " + tweet.getMedia_url());
+//            Log.e("Media", "Loading Text is: " + tweet.getBody());
             holder.ivMedia.setVisibility(View.VISIBLE);
             Picasso.with(getContext())
                     .load(tweet.getMedia_url())
@@ -68,7 +75,7 @@ public class TimelineAdapter extends ArrayAdapter<Tweet> {
 
         }
         else {
-            Log.e("Media", "Not loading media: " + tweet.getMedia_url()+" Type:"+tweet.getMedia_type());
+//            Log.e("Media", "Not loading media: " + tweet.getMedia_url()+" Type:"+tweet.getMedia_type());
             holder.ivMedia.setVisibility(View.GONE);
         }
 

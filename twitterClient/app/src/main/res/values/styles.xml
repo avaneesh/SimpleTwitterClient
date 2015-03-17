@@ -13,4 +13,8 @@
         <!-- All customizations that are NOT specific to a particular API-level can go here. -->
     </style>
 
+    <color name="primary">#55acee</color>
+    <color name="light_bg">#f5f8fa</color>
+    <color name="light_line">#e1e8ed</color>
+
 </resources>

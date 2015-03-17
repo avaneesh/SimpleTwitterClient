@@ -6,7 +6,7 @@
     android:paddingLeft="10dp"
     android:paddingRight="10dp"
     android:paddingTop="10dp"
-    tools:context="com.codepath.apps.mytwitterclient.ComposeFragment">
+    tools:context="com.codepath.apps.mytwitterclient.fragments.ComposeFragment">
 
 
     <ImageButton

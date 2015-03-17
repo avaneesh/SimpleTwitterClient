@@ -37,7 +37,7 @@ public class Tweet extends Model {
     @Column (name = "media_url")
     String media_url;
 
-    public static long max_id=Long.MAX_VALUE;
+    //public static long max_id=Long.MAX_VALUE;
 
     public Tweet() {
         super();
@@ -101,35 +101,37 @@ public class Tweet extends Model {
                     Type: [x] -> media[x] -> type
                     URL: [x] -> media[x] -> media_url
              */
-    public static Tweet fromJSON(JSONObject jsonObject) {
+    public static Tweet fromJSON(JSONObject jsonObject, TweetModelResponse tweetModelResponse) {
         Tweet tweet = new Tweet();
 
         try {
             tweet.body = jsonObject.getString("text");
             tweet.created_at = jsonObject.getString("created_at");
-            tweet.user = User.fromJSON(jsonObject.getJSONObject("user"));
+            tweet.user = User.fromJSON(jsonObject.getJSONObject("user"), tweetModelResponse);
             tweet.tweet_id = jsonObject.getLong("id");
-            if (tweet.tweet_id < max_id) {
+            if (tweet.tweet_id < tweetModelResponse.getCurrent_max_id()) {
                 // keep track of lowest id returned.
                 // this will be set as max_id for next page request
-                max_id = tweet.tweet_id;
-                Log.e("ID", "Setting max id to: "+max_id);
+                tweetModelResponse.setCurrent_max_id(tweet.tweet_id);
+                Log.e("ID", "Setting max id to: "+tweetModelResponse.getCurrent_max_id());
             }
             if (jsonObject.getJSONObject("entities").has("media")){
                 tweet.media_type = jsonObject.getJSONObject("entities").getJSONArray("media").getJSONObject(0).getString("type");
                 tweet.media_url = jsonObject.getJSONObject("entities").getJSONArray("media").getJSONObject(0).getString("media_url");
-                Log.e("media", "Type: "+tweet.media_type+" URL: "+tweet.media_url);
+//                Log.e("media", "Type: "+tweet.media_type+" URL: "+tweet.media_url);
             }
             else {
                 tweet.media_type = "none";
                 tweet.media_url = "invalid";
-                Log.e("media", "No media detected..");
+//                Log.e("media", "No media detected..");
             }
-            Log.e("ID", "Current ID: "+tweet.tweet_id+" Max ID: "+max_id);
-            Log.e("Dump", jsonObject.toString());
+//            Log.e("ID", "Current ID: "+tweet.tweet_id+" Max ID: "+tweetModelResponse.getCurrent_max_id());
+//            Log.e("Dump", jsonObject.toString());
 
             // Save in SQL db
-            tweet.save();
+            if (tweetModelResponse.isRequireLocalCache()) {
+                tweet.save();
+            }
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -137,19 +139,19 @@ public class Tweet extends Model {
     }
 
 
-    public static ArrayList<Tweet> fromJSONArray(JSONArray jsonArray){
-        ArrayList<Tweet> lTweet = new ArrayList();
+    public static TweetModelResponse fromJSONArray(JSONArray jsonArray, TweetModelResponse tweetModelResponse){
+        ArrayList<Tweet> lTweet = tweetModelResponse.getlTweets();
 
         for (int i = 0; i < jsonArray.length(); i++) {
             try {
-                Tweet t = Tweet.fromJSON(jsonArray.getJSONObject(i));
+                Tweet t = Tweet.fromJSON(jsonArray.getJSONObject(i), tweetModelResponse);
                 lTweet.add(t);
             } catch (JSONException e) {
                 e.printStackTrace();
             }
         }
 
-        return lTweet;
+        return tweetModelResponse;
     }
 
     // get from local cache
