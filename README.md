@@ -6,7 +6,7 @@ Twitter client - with fragments
 3. Every timeline is infinite scrollable
 4. Click on any of the user's profile image to view his/her profile
 
-
+Demo:
 ![Video Walkthrough](twitterFragmentsDemo.gif)
 
 Previous features:
@@ -16,5 +16,5 @@ Previous features:
 4. Shows embedded image media in tweet timeline
 5. Endless scroll using smart pagination through twitter feed
 
-
+Demo:
 ![Video Walkthrough of previous features](twitterDemo.gif)
