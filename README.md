@@ -9,7 +9,7 @@ Twitter client - with fragments
 Demo:
 ![Video Walkthrough](twitterFragmentsDemo.gif)
 
-Previous features:
+
 1. Work offline - SQLite db for persistence of previous tweets
 2. Detect rate limits imposed by twitter and request user to try after twitter's remaining 'reset' duration
 3. Dialog fragment to compose new tweet
